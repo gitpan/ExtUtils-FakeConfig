@@ -26,7 +26,7 @@ WriteMakefile( NAME => 'ExtUtils::FakeConfig',
                # Perl < 5.005 does not support some attributes
                ( $] >= 5.005 ?
                  ( ABSTRACT_FROM => $liar,
-                   AUTHOR => 'Mattia Barbon <mbarbon@dsi.unive.it>',
+                   AUTHOR => 'Mattia Barbon <mbarbon@cpan.org>',
                  ) : () ),
                VERSION_FROM => $liar,
                PREREQ_PM => { 'File::Spec'        => 0,
@@ -43,11 +43,13 @@ BEGIN {
                 Spec     => ( $] >= 5.008
                               ? 'spec/ap_mingw_58.txt'
                               : 'spec/ap_mingw.txt' ),
-                Params   => 'cc=gcc pack_name=Config_m' },
+                Params   => "cc=gcc pack_name=Config_m make=$make" },
             );
 }
 
 package MY;
+
+use Config;
 
 sub depend {
   my $this = shift;
@@ -76,6 +78,27 @@ sub postamble {
       $ret .= <<EOT;
 $lib/$i{Module} : $i{Template} $i{Spec}
 	$templater $i{Template} $i{Spec} \$@ $i{Params}
+
+EOT
+    }
+
+    my $core = "$Config{archlibexp}\\CORE";
+    my $perl5_dll = ( glob( "$Config{binexp}\\perl*.dll" ) )[0];
+    my $gcc = ( ExtUtils::FakeConfig::find_program( 'gcc' ) )[1];
+    my $msvc = ( ExtUtils::FakeConfig::find_program( 'cl' ) )[1];
+
+    if( $gcc ) {
+      $ret .= <<EOT;
+install ::
+	perl script\\make_implib.pl --output-dir="$core" --target=mingw "$perl5_dll"
+
+EOT
+    }
+
+    if( $msvc ) {
+      $ret .= <<EOT;
+install ::
+	perl script\\make_implib.pl --output-dir="$core" --target=vc "$perl5_dll"
 
 EOT
     }

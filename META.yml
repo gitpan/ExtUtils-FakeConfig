@@ -1,0 +1,12 @@
+# http://module-build.sourceforge.net/META-spec.html
+#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
+name:         ExtUtils-FakeConfig
+version:      0.06
+version_from: lib\ExtUtils\FakeConfig.pm
+installdirs:  site
+requires:
+    File::Spec:                    0
+    Test:                          0
+
+distribution_type: module
+generated_by: ExtUtils::MakeMaker version 6.21

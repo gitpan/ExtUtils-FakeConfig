@@ -2,8 +2,8 @@ MANIFEST
 Changes
 Makefile.PL
 README.txt
-INSTALL.txt
 
+lib/Config_m.pod
 lib/ExtUtils/FakeConfig.pm
 
 spec/Config_ap.txt
@@ -15,3 +15,4 @@ script/make_implib.pl
 
 t/01_compile.t
 t/02_basic.t
+META.yml                                 Module meta-data (added by MakeMaker)

@@ -1,3 +1,4 @@
+#!/usr/bin/perl -w
 
 my( $input, $spec, $output ) = @ARGV;
 my( %values );
@@ -10,7 +11,8 @@ open IN, "< $input" or die "Unable to open '$input'";
 open SPEC, "< $spec" or die "Unable to open '$spec'";
 open OUTPUT, "> $output" or die "Unable to open '$output'";
 
-$values{spec} = join '', <SPEC>;
+$values{spec}  = join '', <SPEC>;
+$values{spec} .= "make='$values{make}'";
 
 while( defined( $_ = <IN> ) ) {
   $_ =~ s/--(\w+)--/$values{$1}/ge;

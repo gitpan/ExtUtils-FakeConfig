@@ -1,3 +1,9 @@
+0.06  Wed Jul 28 09:39:07 CEST 2004
+	- automated creation of import libraries for perlxx.dll
+	- added documentation for Comfig_m.pm
+	- Config_m.pm uses the 'make' program found
+	  by Makefile.PL
+
 0.05  Sun Dec 22 15:58:20 CET 2002
 	- allow choosing which make to use via $ENV{MAKE}
 	- fixed bug with nmake

@@ -4,7 +4,7 @@ require Config;
 
 use vars qw($VERSION);
 
-$VERSION = 0.05;
+$VERSION = 0.06;
 
 eval {
   require File::Spec;
@@ -60,19 +60,19 @@ ExtUtils::FakeConfig - overrides some configuration values
 This module is basically an hack to be used in Makefile.PL invocation:
 create a driver module like
 
-package my_Config:
+  package my_Config:
 
-use ExtUtils::FakeConfig cflags => '-lfoo -O14', ld => 'g++';
+  use ExtUtils::FakeConfig cflags => '-lfoo -O14', ld => 'g++';
 
-1;
+  1;
 
 and invoke
 
-perl -Mmy_Config Makefile.PL
+  perl -Mmy_Config Makefile.PL
 
 =head1 AUTHOR
 
-Mattia Barbon <mbarbon@dsi.unive.it>
+Mattia Barbon <mbarbon@cpan.org>
 
 =cut
 
