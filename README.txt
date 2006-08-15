@@ -36,6 +36,7 @@ It might be useful for other things, too.
 
   It is just a front-end to ExtUtils::FakeConfig: it sets up %Config to allow
 compilation of ActivePerl modules with MinGW GCC.
+
 Basic use:
 
 perl -MConfig_m Makefile.PL
@@ -43,8 +44,16 @@ dmake
 dmake test
 dmake install
 
+or
+
+set PERL5OPT=-MConfig_m
+perl Build.PL
+perl Build
+perl Build test
+perl Build install
+
   It can be used with CPAN.pm/CPANPLUS.pm, too.
 
-Copyright (c) 2001, 2002, 2004 Mattia Barbon. All rights reserved.
+Copyright (c) 2001, 2002, 2004, 2006 Mattia Barbon. All rights reserved.
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

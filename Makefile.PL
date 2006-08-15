@@ -2,6 +2,23 @@
 
 use strict;
 use lib 'lib';
+
+# poor man's File::Spec
+eval {
+  require File::Spec;
+};
+if( $@ ) {
+  eval <<'EOT';
+package File::Spec;
+
+sub catfile { shift; join '/', @_ }
+
+sub path { split /$Config::Config{path_sep}/, $ENV{PATH} }
+
+$INC{'File/Spec.pm'} = 'loaded';
+EOT
+}
+
 use Config;
 use ExtUtils::FakeConfig;
 
@@ -26,11 +43,12 @@ WriteMakefile( NAME => 'ExtUtils::FakeConfig',
                # Perl < 5.005 does not support some attributes
                ( $] >= 5.005 ?
                  ( ABSTRACT_FROM => $liar,
-                   AUTHOR => 'Mattia Barbon <mbarbon@cpan.org>',
+                   AUTHOR => 'Mattia Barbon <mbarbon@dsi.unive.it>',
                  ) : () ),
                VERSION_FROM => $liar,
                PREREQ_PM => { 'File::Spec'        => 0,
-                              'Test'              => 0, },
+                              'Test::More'        => 0.48,
+                              },
              );
 
 print "Using: '$make'\n";
@@ -43,12 +61,13 @@ BEGIN {
                 Spec     => ( $] >= 5.008
                               ? 'spec/ap_mingw_58.txt'
                               : 'spec/ap_mingw.txt' ),
-                Params   => "cc=gcc pack_name=Config_m make=$make" },
+                Params   => "cc=gcc pack_name=Config_m" },
             );
 }
 
 package MY;
 
+use strict;
 use Config;
 
 sub depend {
@@ -89,16 +108,18 @@ EOT
 
     if( $gcc ) {
       $ret .= <<EOT;
-install ::
-	perl script\\make_implib.pl --output-dir="$core" --target=mingw "$perl5_dll"
+pure_install :: implib_mingw
+
+implib_mingw :
+       \$(PERL) script\\make_implib.pl --output-dir="$core" --target=mingw "$perl5_dll"
 
 EOT
     }
 
     if( $msvc ) {
       $ret .= <<EOT;
-install ::
-	perl script\\make_implib.pl --output-dir="$core" --target=vc "$perl5_dll"
+implib_msvc :
+       \$(PERL) script\\make_implib.pl --output-dir="$core" --target=vc "$perl5_dll"
 
 EOT
     }
@@ -106,8 +127,4 @@ EOT
 
   return $ret;
 }
-
-# Local variables: #
-# mode: cperl #
-# End: #
 

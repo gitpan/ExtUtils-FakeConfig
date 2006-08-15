@@ -1,23 +1,13 @@
 package ExtUtils::FakeConfig;
 
+use strict;
+
+require File::Spec;
 require Config;
 
 use vars qw($VERSION);
 
-$VERSION = 0.06;
-
-eval {
-  require File::Spec;
-};
-if( $@ ) {
-  eval <<'EOT';
-package File::Spec;
-
-sub catfile { shift; join '/', @_ }
-
-sub path { split /$Config::Config{path_sep}/, $ENV{PATH} }
-EOT
-}
+$VERSION = 0.07;
 
 sub import {
   shift;
@@ -32,6 +22,7 @@ sub import {
 sub find_program {
   my @path = File::Spec->path();
 
+  # we can't use Config here...
   foreach my $prog ( map { ( $_, "$_.exe" ) } @_ ) {
     foreach my $path ( @path ) {
       if( -f File::Spec->catfile( $path, $prog ) ) {
@@ -45,6 +36,7 @@ sub find_program {
 }
 
 1;
+
 __END__
 
 =head1 NAME
@@ -60,22 +52,23 @@ ExtUtils::FakeConfig - overrides some configuration values
 This module is basically an hack to be used in Makefile.PL invocation:
 create a driver module like
 
-  package my_Config:
+    package my_Config:
 
-  use ExtUtils::FakeConfig cflags => '-lfoo -O14', ld => 'g++';
+    use ExtUtils::FakeConfig cflags => '-lfoo -O14', ld => 'g++';
 
-  1;
+    1;
 
 and invoke
 
-  perl -Mmy_Config Makefile.PL
+    perl -Mmy_Config Makefile.PL
 
 =head1 AUTHOR
 
 Mattia Barbon <mbarbon@cpan.org>
 
-=cut
+=head1 LICENSE
 
-# Local variables: #
-# mode: cperl #
-# End: #
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+=cut
