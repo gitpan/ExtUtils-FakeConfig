@@ -1,12 +1,24 @@
 # http://module-build.sourceforge.net/META-spec.html
-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         ExtUtils-FakeConfig
-version:      0.08
+version:      0.09
 version_from: lib/ExtUtils/FakeConfig.pm
 installdirs:  site
+author:       Mattia Barbon <mbarbon@dsi.unive.it>
+abstract: overrides some configuration values
+license: perl
 requires:
-    File::Spec:                    0
-    Test::More:                    0.48
+  File::Spec:    0
+  Test::More: 0.48
+#build_requires:
+no_index:
+  directory:
+    - t
+
+# extras.
+dynamic_config: 1
 
 distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.30
+generated_by: ExtUtils::MY_Metafile version 0.07, EUMM-6.30.
+meta-spec:
+  version: 1.2
+  url: http://module-build.sourceforge.net/META-spec-v1.2.html

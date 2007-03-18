@@ -2,7 +2,6 @@ MANIFEST
 Changes
 Makefile.PL
 README.txt
-META.yml
 
 lib/Config_m.pod
 lib/ExtUtils/FakeConfig.pm
@@ -18,3 +17,4 @@ t/01_compile.t
 t/02_basic.t
 t/zy_pod_coverage.t
 t/zz_pod.t
+META.yml                                 Module meta-data (added by MakeMaker)
