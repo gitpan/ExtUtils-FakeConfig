@@ -1,10 +1,10 @@
 # http://module-build.sourceforge.net/META-spec.html
 name:         ExtUtils-FakeConfig
-version:      0.11
+version:      0.12
 version_from: lib/ExtUtils/FakeConfig.pm
 installdirs:  site
-author:       Mattia Barbon <mbarbon@dsi.unive.it>
-abstract:     overrides some configuration values
+author:       Mattia Barbon <mbarbon@cpan.org>
+abstract:     override %Config values on-the-fly
 license:      perl
 requires:
   File::Spec:    0
